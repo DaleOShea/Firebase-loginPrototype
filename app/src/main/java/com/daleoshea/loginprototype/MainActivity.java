@@ -1,5 +1,6 @@
 package com.daleoshea.loginprototype;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -18,6 +22,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    SignInButton googleButton;
+
+    private final int RC_SIGN_IN = 1;
+    
 
     EditText emailEditText;
     EditText passwordEditText;
@@ -30,11 +38,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        emailEditText = (EditText)findViewById(R.id.emailEditText);
+        passwordEditText = (EditText)findViewById(R.id.passwordEditText);
+
         //Initalsiing the FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
 
-       emailEditText = (EditText)findViewById(R.id.emailEditText);
-       passwordEditText = (EditText)findViewById(R.id.passwordEditText);
+        googleButton = (SignInButton)findViewById(R.id.googleSignInBtn);
+
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+
     }
 
 
@@ -100,10 +121,13 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
 
+    private void googleSignIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
 
-            public void signOut(View view){
-
-                FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "Sucessfully Signed Out", Toast.LENGTH_SHORT).show();
-            }
+    public void signOut(View view){
+        FirebaseAuth.getInstance().signOut();
+        Toast.makeText(MainActivity.this, "Sucessfully Signed Out", Toast.LENGTH_SHORT).show();
+    }
 }

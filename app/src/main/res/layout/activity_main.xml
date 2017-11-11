@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
     tools:context="com.daleoshea.loginprototype.MainActivity"
-    tools:layout_editor_absoluteY="89dp">
+    tools:layout_editor_absoluteY="81dp">
 
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="93dp"
+        android:layout_marginBottom="64dp"
         android:ems="10"
         android:hint="email..."
         android:inputType="textEmailAddress"
@@ -24,7 +24,7 @@
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="Password..."
         android:inputType="textPassword"
@@ -35,30 +35,43 @@
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="7dp"
         android:onClick="createAccount"
         android:text="Register"
         app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintStart_toStartOf="@+id/button3" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"
         android:onClick="signIn"
         android:text="Sign In"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="@+id/button4" />
+        app:layout_constraintBottom_toTopOf="@+id/googleSignInBtn"
+        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="41dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="7dp"
         android:onClick="signOut"
         android:text="Sign Out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button3"
+        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleSignInBtn"
+        android:layout_width="match_parent"
+        android:layout_height="matc"
+        android:layout_marginBottom="84dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
