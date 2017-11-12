@@ -10,8 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,14 +27,18 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    SignInButton googleButton;
 
-    private final int RC_SIGN_IN = 1;
-    
+    private static final int RC_SIGN_IN = 9001;
+    SignInButton googleSignInBtn;
+
+    //TODO
+   // private GoogleSignInClient mGoogleSignInClient;
+
+    GoogleApiClient mGoogleApiClient;
 
     EditText emailEditText;
     EditText passwordEditText;
-    Button   registerButton;
+
 
 
 
@@ -38,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        emailEditText = (EditText)findViewById(R.id.emailEditText);
-        passwordEditText = (EditText)findViewById(R.id.passwordEditText);
-
         //Initalsiing the FirebaseAuth instance
         mAuth = FirebaseAuth.getInstance();
 
-        googleButton = (SignInButton)findViewById(R.id.googleSignInBtn);
+        googleSignInBtn = (SignInButton) findViewById(R.id.googleSignInBtn);
+
+        emailEditText = (EditText)findViewById(R.id.emailEditText);
+        passwordEditText = (EditText)findViewById(R.id.passwordEditText);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -52,10 +61,16 @@ public class MainActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        // Build a GoogleSignInClient with the options specified by gso.
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(MainActivity.this, "Something went Wrong", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
 
@@ -65,6 +80,22 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GOOGLE_SIGN_IN_API.getSignInResultFromIntent()
+            }
+        }
     }
 
     public void createAccount(View view){
@@ -119,14 +150,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-            }
-
-    private void googleSignIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+
     public void signOut(View view){
+
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(MainActivity.this, "Sucessfully Signed Out", Toast.LENGTH_SHORT).show();
     }

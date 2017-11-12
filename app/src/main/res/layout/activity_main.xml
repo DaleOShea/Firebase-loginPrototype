@@ -12,19 +12,19 @@
         android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_marginTop="136dp"
         android:ems="10"
         android:hint="email..."
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:ems="10"
         android:hint="Password..."
         android:inputType="textPassword"
@@ -35,7 +35,6 @@
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
         android:onClick="createAccount"
         android:text="Register"
         app:layout_constraintBottom_toTopOf="@+id/button3"
@@ -46,8 +45,8 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="21dp"
+        android:layout_marginEnd="24dp"
         android:onClick="signIn"
         android:text="Sign In"
         app:layout_constraintBottom_toTopOf="@+id/googleSignInBtn"
@@ -59,8 +58,7 @@
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="2dp"
-        android:layout_marginTop="7dp"
+        android:layout_marginEnd="14dp"
         android:onClick="signOut"
         android:text="Sign Out"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +67,10 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleSignInBtn"
-        android:layout_width="match_parent"
-        android:layout_height="matc"
-        android:layout_marginBottom="84dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
